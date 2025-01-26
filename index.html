@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Climber</title>
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(to bottom, #87ceeb, #f4f4f4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .wall {
+            position: relative;
+            width: 200px;
+            height: 600px;
+            background: #8b4513;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .climber {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: url('data:image/gif;base64,R0lGODlhEAAQAPYAAAAAAP///wAAACwAAAAAEAAQAAACcoSPqcvtD6OctNqLs968+w+G4kiW5omm6sq27gvH8kx9vfNt94LAoFioZsKhfrisCiEM+KxarxqrYay3W63aC6w6ChAkRuS6RqWS0rxuG7MdOspkKs4RpR9zXjOWeY1XCOXOZVjAmKVmFpXXnbbeXeibAeKZ7glfXqDoZ+iaVuvpJ6uoaexrqi6sauwtKebt2qWqQAAOw==') no-repeat center / contain;
+            animation: climb 1s infinite alternate;
+        }
+
+        @keyframes climb {
+            0% { transform: translateX(-50%) rotate(-5deg); }
+            100% { transform: translateX(-50%) rotate(5deg); }
+        }
+
+        .time-label {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 1.2rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="wall">
+        <div class="climber" id="climber"></div>
+        <div class="time-label" id="timeLabel"></div>
+    </div>
+
+    <script>
+        function updateClimberPosition() {
+            const climber = document.getElementById('climber');
+            const timeLabel = document.getElementById('timeLabel');
+            const now = new Date();
+            const hours = now.getHours();
+
+            // Calculate climber position based on hours (0-23 scale to 0-100%)
+            const positionPercentage = (hours / 23) * 100;
+
+            // Update climber position and time label
+            climber.style.bottom = `${positionPercentage}%`;
+            timeLabel.textContent = `Hora actual: ${hours}:00`;
+        }
+
+        // Initial position and periodic update every minute
+        updateClimberPosition();
+        setInterval(updateClimberPosition, 60000);
+    </script>
+</body>
+</html>
